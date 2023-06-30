@@ -1,11 +1,15 @@
 import { Header } from "./components/Header"
-import {Post} from "./components/post"
+import { Post } from "./components/post";
+import { Siderbar } from "./components/siderbar";
 
 
 import styles from './App.module.scss';
 
+
 import'./global.css'
-import { Siderbar } from "./components/siderbar";
+
+
+
 
 export function App() {
 
@@ -21,11 +25,10 @@ export function App() {
       
       <main>
 
-      <Post
-     author="biel"
-     content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident officia, amet explicabo voluptate debitis, nemo maiores deleniti cupiditate neque, adipisci       
-     voluptatibus blanditiis laborum. Debitis iste numquam tempora fugit, culpa cupiditate?" />
+     <Post></Post>
+     <Post/>
     
+   
       </main>
    </div>
    </div>
