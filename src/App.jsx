@@ -1,5 +1,5 @@
 import { Header } from "./components/Header"
-import {Post} from "./post"
+import {Post} from "./components/post"
 
 
 import styles from './App.module.scss';
