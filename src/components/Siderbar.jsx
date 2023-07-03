@@ -1,3 +1,4 @@
+import { Avatar } from './Avatar';
 import style from './siderbar.module.scss'
 import { PencilLine } from "phosphor-react";
 
@@ -8,7 +9,7 @@ export function Siderbar(){
                 />
 
             <div className={style.Profile}>
-                <img src="https://github.com/biellil.png" />
+                <Avatar  src="https://github.com/biellil.png" />
                <strong> José Gabriel</strong>
 
                <span>Web Developer</span> 

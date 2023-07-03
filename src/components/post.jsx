@@ -1,31 +1,68 @@
+import { format ,formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+import { Avatar } from './Avatar';
 import { Comments } from './Comments';
 import style from './Post.module.scss';
 
 
-export function Post() {
+export function Post({author,  publishedAt ,content}) {
 
+    const pubçisheDateFormatted = format(publishedAt, "d 'de' LLLL 'de' y 'ás' HH':'mm'h' a ",
+     {locale : ptBR,
+    } 
+         );
+     const pubçisheDateRelativeToNow = formatDistanceToNow(publishedAt, {
+     
+        locale:ptBR,
+        addSuffix:true,
+    }
+        );
+   
 
     return (
       <article className={style.Post}>
         <header>
             <div className={style.author}>
-            <img src="https://github.com/biellil.png" />
+            <Avatar src={author.avatarUrl} />
             <div>
-                <strong>José gabriel</strong>
-                <span>Web DeveLoper</span>
+                <strong>{author.nome}</strong>
+                <span>{author.role}</span>
             </div>
             </div>
+              
 
-
-            <time title='2023-06-30' dateTime='2023-06-30 17:29:00'>Publicado há 1h</time>
+            <time title= {pubçisheDateFormatted} dateTime= {publishedAt.toISOString()}>
+                {pubçisheDateRelativeToNow}
+                </time>
         </header>
 
         <div className={style.content}>
-            <p>Fala galeraa {' '}👋</p> 
-            <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-            <p> <a href="#">  jane.design/doctorcare</a></p>
-            <p><a href="#">#novoprojeto</a><a href="#">#nlw</a> <a href=""> #rocketseat</a></p>
-           
+
+        {content.map(line =>{
+            if (line.type === 'paragraph') {
+
+                return(
+                <p>
+                    {line.content}
+                    </p>);
+            } else if(line.type === 'link') {
+
+                return(
+                <p>
+                    <a href={line.content}>
+                        {line.rede}
+                        </a>
+                    </p>);
+            }else if (line.type === 'links') {
+                return (
+                  <>
+                    {line.content.map((item, index) => (
+                      <a key={index}>{item}{' '}</a>
+                    ))}
+                  </>
+                );
+              }
+        })}
             </div>
 
              <form className={style.contentForm}>
