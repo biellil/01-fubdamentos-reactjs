@@ -45,7 +45,7 @@ const posts = [
     { type: 'link', content: 'https://github.com/fagnersro' ,
       rede:'github'
   },
-    { type: 'links', content:[ '#projetosustentavel', '#design', '#meioambiente' ] },
+    { type: 'links', content: "'#projetosustentavel' '#design' '#meioambiente' " },
     ],
     publishedAt: new Date('2023-07-03 18:30:00')
     },
@@ -111,7 +111,7 @@ export function App() {
      {posts.map(post=>{
       return (
       <Post
-       
+       key={post.id}
        author={post.author}
        content={post.content}
        publishedAt={post.publishedAt}

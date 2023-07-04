@@ -3,21 +3,42 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { Avatar } from './Avatar';
 import { Comments } from './Comments';
 import style from './Post.module.scss';
+import { useState } from 'react';
+
+
 
 
 export function Post({author,  publishedAt ,content}) {
 
-    const pubçisheDateFormatted = format(publishedAt, "d 'de' LLLL 'de' y 'ás' HH':'mm'h' a ",
+  const [comments , setComments] = useState([]);
+
+  const [newCommentText , setNewCommentText] = useState('');
+
+  const pubçisheDateFormatted = format(publishedAt, "d 'de' LLLL 'de' y 'ás' HH':'mm'h' a ",
      {locale : ptBR,
     } 
          );
-     const pubçisheDateRelativeToNow = formatDistanceToNow(publishedAt, {
+  const pubçisheDateRelativeToNow = formatDistanceToNow(publishedAt, {
      
         locale:ptBR,
         addSuffix:true,
     }
         );
    
+
+  function hamdleCreateNewComment() {
+     event.preventDefault()
+
+    setComments([...comments, newCommentText ]);
+    setNewCommentText('');
+
+   }
+
+
+  function handleNewCommentChange(){
+    setNewCommentText(event.target.value);
+
+     }
 
     return (
       <article className={style.Post}>
@@ -38,45 +59,50 @@ export function Post({author,  publishedAt ,content}) {
 
         <div className={style.content}>
 
-        {content.map(line =>{
+                  {content.map((line) => {
             if (line.type === 'paragraph') {
-
-                return(
-                <p>
-                    {line.content}
-                    </p>);
-            } else if(line.type === 'link') {
-
-                return(
-                <p>
-                    <a href={line.content}>
-                        {line.rede}
-                        </a>
-                    </p>);
-            }else if (line.type === 'links') {
-                return (
-                  <>
-                    {line.content.map((item, index) => (
-                      <a key={index}>{item}{' '}</a>
-                    ))}
-                  </>
-                );
+              return( 
+              <p key={line.content}>
+                {line.content}
+                </p>
+              );
+            } else if (line.type === 'link') {
+              return (
+                <p key={line.content}>
+                  <a href={line.content}>{line.rede}</a>
+                </p>
+              );
+            } else if (line.type === 'links') {
+              if (Array.isArray(line.content)) { // Check if line.content is an array
+                return line.content.map((item) => (
+                  <a key={item}>{item}{' '}</a>
+                ));
               }
-        })}
+            }
+          })}
             </div>
 
-             <form className={style.contentForm}>
-                <strong>Deixe seu Feedback</strong>
-                <textarea placeholder='Escreva um comentário...'/>
+             <form onSubmit={hamdleCreateNewComment} className={style.contentForm}>
+                <strong>Deixe seus Comentários</strong>
+
+                <textarea 
+                 name="comment" 
+                 placeholder='Deixe um comentário...'
+                 value={newCommentText}
+                 onChange={handleNewCommentChange}
+               
+
+                />
                 <footer>
                     <button type='submit'>Publicar</button>
                     </footer>
              </form>
-             <div className={style.CommentsList}>
-             <Comments/>
-             <Comments/>
-             <Comments/>
-             </div>
+                <div className={style.commentsList}>
+      {comments.map((comment) => {
+        return <Comments key={comment}  content={comment} />;
+      })}
+    </div>
+
       </article>
     )
     
