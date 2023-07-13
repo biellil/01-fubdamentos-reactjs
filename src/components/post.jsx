@@ -39,6 +39,17 @@ export function Post({author,  publishedAt ,content}) {
     setNewCommentText(event.target.value);
 
      }
+  function deletComment(commentToDelete){
+    const commntWithoutDeletedOne = comments.filter(comment =>{
+     return comment != commentToDelete;
+    })
+  setComments(commntWithoutDeletedOne);
+  } 
+
+  function handleNewCommentInvaLid(){
+    
+    event.target.setCustomValidity('Esse compo é obrigatorio!');
+  }
 
     return (
       <article className={style.Post}>
@@ -90,16 +101,18 @@ export function Post({author,  publishedAt ,content}) {
                  placeholder='Deixe um comentário...'
                  value={newCommentText}
                  onChange={handleNewCommentChange}
+                 onInvalid={handleNewCommentInvaLid}
+                 required
                
 
                 />
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button type='submit' disabled={newCommentText.length == 0}>Publicar</button>
                     </footer>
              </form>
                 <div className={style.commentsList}>
       {comments.map((comment) => {
-        return <Comments key={comment}  content={comment} />;
+        return <Comments key={comment}  content={comment}  onDeletComment={ deletComment} />;
       })}
     </div>
 
