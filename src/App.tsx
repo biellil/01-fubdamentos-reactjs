@@ -1,6 +1,6 @@
 import { Header } from "./components/Header"
 import { Post } from "./components/post";
-import { Siderbar } from "./components/siderbar";
+import { Siderbar } from "./components/Siderbar";
 
 
 import styles from './App.module.scss';

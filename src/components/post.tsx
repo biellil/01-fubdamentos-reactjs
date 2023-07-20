@@ -3,14 +3,30 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { Avatar } from './Avatar';
 import { Comments } from './Comments';
 import style from './Post.module.scss';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
+
+interface Author{
+  name?:string;
+  role:string;
+  avatarUrl:string;
+}
+
+interface  Content{
+  type:'paragraph' | 'link' | 'links' ;
+  content:string;
+  rede:string;
+}
+interface PostProps {
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
+}
 
 
 
+export function Post({author,  publishedAt ,content}:PostProps) {
 
-export function Post({author,  publishedAt ,content}) {
-
-  const [comments , setComments] = useState([]);
+  const [comments , setComments] = useState(['Boa!!']);
 
   const [newCommentText , setNewCommentText] = useState('');
 
@@ -26,7 +42,7 @@ export function Post({author,  publishedAt ,content}) {
         );
    
 
-  function hamdleCreateNewComment() {
+  function hamdleCreateNewComment(event:FormEvent) {
      event.preventDefault()
 
     setComments([...comments, newCommentText ]);
@@ -35,18 +51,18 @@ export function Post({author,  publishedAt ,content}) {
    }
 
 
-  function handleNewCommentChange(){
+  function handleNewCommentChange(event:ChangeEvent<HTMLTextAreaElement>){
     setNewCommentText(event.target.value);
 
      }
-  function deletComment(commentToDelete){
+  function deletComment(commentToDelete:string){
     const commntWithoutDeletedOne = comments.filter(comment =>{
      return comment != commentToDelete;
     })
   setComments(commntWithoutDeletedOne);
   } 
 
-  function handleNewCommentInvaLid(){
+  function handleNewCommentInvaLid(event: InvalidEvent<HTMLTextAreaElement>){
     
     event.target.setCustomValidity('Esse compo é obrigatorio!');
   }
@@ -57,7 +73,7 @@ export function Post({author,  publishedAt ,content}) {
             <div className={style.author}>
             <Avatar src={author.avatarUrl} />
             <div>
-                <strong>{author.nome}</strong>
+                <strong>{author.name}</strong>
                 <span>{author.role}</span>
             </div>
             </div>
